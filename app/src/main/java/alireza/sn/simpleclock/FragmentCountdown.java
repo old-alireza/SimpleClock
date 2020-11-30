@@ -46,7 +46,6 @@ public class FragmentCountdown extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         findViews(view);
         figure();
-
     }
 
     private void figure() {
