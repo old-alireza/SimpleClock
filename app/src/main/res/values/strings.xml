@@ -10,5 +10,5 @@
     <string name="pause_btn">pause</string>
     <string name="clear_btn">clear</string>
 
-    <string name="stopwatch_field">%s : %s : %s : %s</string>
+    <string name="stopwatch_field">%s : %s : %s</string>
 </resources>

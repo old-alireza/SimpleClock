@@ -26,6 +26,16 @@
             android:text="start"/>
 
         <Button
+            android:id="@+id/stopwatch_reset"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textColor="@android:color/white"
+            android:background="@android:color/black"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:text="reset"/>
+
+        <Button
             android:id="@+id/stopwatch_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,13 +43,13 @@
             android:background="@android:color/black"
             android:layout_margin="10dp"
             android:text="stop"/>
+
     </LinearLayout>
 
     <TextView
         android:id="@+id/timer_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/stopwatch_field"
         android:layout_centerInParent="true"
         android:textColor="@android:color/white"
         android:textSize="30sp"/>

@@ -1,11 +1,6 @@
 package alireza.sn.simpleclock;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,22 +11,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.text.DecimalFormat;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
-
 public class FragmentStopwatch extends Fragment {
-    public MyService myService;
+
+    private static final DecimalFormat decimalFormat = new DecimalFormat("00");
 
     private Button startBtn;
     private Button stopBtn;
-
+    private Button resetBtn;
     private TextView timerField;
 
+    private MyService myService ;
     public FragmentStopwatch(MyService myService) {
-      //  Log.e("TAG", String.valueOf(myService==null ? true : false));
         this.myService = myService;
     }
 
@@ -43,29 +36,33 @@ public class FragmentStopwatch extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        findViews(view);
-        myService.initViews(timerField,startBtn , stopBtn);
+        initView(view);
         init();
+        Log.i("a","init fragment and states");
+        myService.getView(startBtn , stopBtn , resetBtn ,timerField);
+        Log.i("a","my service buttons update" );
+        myService.countdown();
     }
 
-    private void findViews(View view) {
-        startBtn = view.findViewById(R.id.stopwatch_start);
-        stopBtn = view.findViewById(R.id.stopwatch_stop);
-        timerField = view.findViewById(R.id.timer_field);
-    }
+    public void init() {
+        int second = MyPref.getInstance(getContext()).getSecond();
+        int minute = MyPref.getInstance(getContext()).getMinute();
+        int hour = MyPref.getInstance(getContext()).getHour();
+        timerField.setText(getContext().getString(R.string.stopwatch_field,
+                decimalFormat.format(hour),
+                decimalFormat.format(minute),
+                decimalFormat.format(second)));
 
-
-    private void init() {
-        timerField.setText(getString(R.string.stopwatch_field, "00", "00", "00", "00"));
-      //  countdown();
+        startBtn.setEnabled(MyPref.getInstance(getContext()).getIsEnableStart());
+        startBtn.setAlpha(MyPref.getInstance(getContext()).getAlphaStart());
+        stopBtn.setEnabled(MyPref.getInstance(getContext()).getIsEnableStop());
+        stopBtn.setAlpha(MyPref.getInstance(getContext()).getAlphaStop());
+        resetBtn.setVisibility(MyPref.getInstance(getContext()).getVisibilityReset());
 
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myService.startPress();
-                //startPress();
-                Log.e("TAG","press start button");
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent("ok").putExtra("show",true));
             }
         });
 
@@ -74,24 +71,21 @@ public class FragmentStopwatch extends Fragment {
             @Override
             public void onClick(View v) {
                 myService.stopPress();
-               // stopPress();
-                Log.e("TAG","press stop button");
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent("ok").putExtra("show",false));
+            }
+        });
+
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myService.resetPress();
             }
         });
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-//        countDownTimer.cancel();
-//        countDownTimer.onFinish();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        //stopPress();
-
+    public  void initView(View view) {
+        startBtn = view.findViewById(R.id.stopwatch_start);
+        stopBtn = view.findViewById(R.id.stopwatch_stop);
+        resetBtn = view.findViewById(R.id.stopwatch_reset);
+        timerField = view.findViewById(R.id.timer_field);
     }
 }

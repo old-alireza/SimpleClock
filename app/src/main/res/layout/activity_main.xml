@@ -19,27 +19,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true">
+        android:layout_centerInParent="true">
 
         <Button
             android:id="@+id/countdown_btn"
-            android:layout_width="50sp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:background="@drawable/countdown"
             android:backgroundTint="@color/white"
+            android:layout_gravity="center"
             android:textColor="@android:color/white" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="countdown timer"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"/>
 
         <Button
             android:id="@+id/stopwatch_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
             android:background="@drawable/stopwatch"
             android:backgroundTint="@color/white"
+            android:layout_marginTop="50dp"
             android:textColor="@android:color/white" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stopwatch"
+            android:layout_gravity="center"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 
