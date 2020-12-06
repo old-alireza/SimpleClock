@@ -18,10 +18,16 @@ public class FragmentStopwatch extends Fragment {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("00");
 
-    private Button startBtn;
-    private Button stopBtn;
-    private Button resetBtn;
+    private static Button startBtn;
+    private static Button stopBtn;
+    private static Button resetBtn;
     private TextView timerField;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        myService.countdown();
+    }
 
     private MyService myService ;
     public FragmentStopwatch(MyService myService) {
@@ -41,7 +47,6 @@ public class FragmentStopwatch extends Fragment {
         Log.i("a","init fragment and states");
         myService.getView(startBtn , stopBtn , resetBtn ,timerField);
         Log.i("a","my service buttons update" );
-        myService.countdown();
     }
 
     public void init() {
