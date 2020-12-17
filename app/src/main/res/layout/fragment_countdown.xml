@@ -49,44 +49,67 @@
             android:text="pause"/>
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerInParent="true">
 
-        <EditText
-            android:id="@+id/minutes_input"
-            android:textColor="@color/white"
-            android:textColorHint="@android:color/darker_gray"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:inputType="number"
-            android:maxLength="2"
-            android:textAlignment="center"
-            android:hint="mm"/>
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:text="minute"/>
+
+            <NumberPicker
+                android:id="@+id/minutes_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX="2"
+                android:solidColor="@android:color/darker_gray"/>
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:text=" : "
-            android:textSize="25sp"
-            android:gravity="end"/>
+            android:layout_gravity="center_vertical"
+            android:textSize="35sp"
+            android:padding="5dp"
+            android:gravity="center"/>
 
-
-        <EditText
-            android:id="@+id/seconds_input"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="25sp"
-            android:inputType="number"
-            android:maxLength="2"
-            android:textAlignment="center"
-            android:hint="ss"/>
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="second"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"/>
+
+
+            <NumberPicker
+                android:id="@+id/seconds_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX="2"
+                android:solidColor="@android:color/darker_gray"/>
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
     

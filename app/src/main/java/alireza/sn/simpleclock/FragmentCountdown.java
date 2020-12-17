@@ -2,14 +2,11 @@ package alireza.sn.simpleclock;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,8 +17,8 @@ import androidx.fragment.app.Fragment;
 public class FragmentCountdown extends Fragment {
     private TextView tvTimeFinished;
 
-    private EditText edMinute;
-    private EditText edSecond;
+    private NumberPicker minutePicker;
+    private NumberPicker secondPicker;
 
     private Button btnStartAndResume;
     private Button btnPauseAndClear;
@@ -45,7 +42,15 @@ public class FragmentCountdown extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findViews(view);
+        setValueOfNumberPicker();
         figure();
+    }
+
+    private void setValueOfNumberPicker() {
+        secondPicker.setMinValue(0);
+        secondPicker.setMaxValue(60);
+        minutePicker.setMinValue(0);
+        minutePicker.setMaxValue(60);
     }
 
     private void figure() {
@@ -62,8 +67,9 @@ public class FragmentCountdown extends Fragment {
                     startCountDown();
 
                 } else {
-                    int minute = Integer.parseInt(edMinute.getText().toString());
-                    int second = Integer.parseInt(edSecond.getText().toString());
+                    int minute =minutePicker.getValue();
+                    int second = secondPicker.getValue();
+
                     finalTimer = second + (minute * 60);
                     countDownTimer.start();
                 }
@@ -79,8 +85,8 @@ public class FragmentCountdown extends Fragment {
                 btnStartAndResume.setEnabled(false);
                 startMode = false;
 
-                edMinute.setEnabled(false);
-                edSecond.setEnabled(false);
+                minutePicker.setEnabled(false);
+                secondPicker.setEnabled(false);
             }
         });
 
@@ -121,8 +127,8 @@ public class FragmentCountdown extends Fragment {
 
         countDownTimer = new CountDownTimer((finalTimer + 1) * 1000, 1000) {
 
-            int second = Integer.parseInt(edSecond.getText().toString());
-            int minute = Integer.parseInt(edMinute.getText().toString());
+            int minute =minutePicker.getValue();
+            int second = secondPicker.getValue();
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -137,9 +143,10 @@ public class FragmentCountdown extends Fragment {
                     second = 59;
                     minute--;
                 }
-                edMinute.setText(String.valueOf(minute));
-                edSecond.setText(String.valueOf(second));
-
+               // minutePicker.setText(String.valueOf(minute));
+                minutePicker.setValue(minute);
+              //  secondPicker.setText(String.valueOf(second));
+                secondPicker.setValue(second);
             }
 
             @Override
@@ -162,16 +169,16 @@ public class FragmentCountdown extends Fragment {
         startMode = true;
         pauseMode = true;
 
-        edMinute.setEnabled(true);
-        edSecond.setEnabled(true);
-        edSecond.setText(null);
-        edMinute.setText(null);
+        minutePicker.setEnabled(true);
+        secondPicker.setEnabled(true);
+        //  secondPicker.setText(null);
+       // minutePicker.setText(null);
 
     }
 
     private void checkCorrectTime() {
-        int second = Integer.parseInt(edSecond.getText().toString());
-        int minute = Integer.parseInt(edMinute.getText().toString());
+        int second = secondPicker.getValue();
+        int minute = minutePicker.getValue();
 
         if (second > 60) {
             second -= 60;
@@ -180,15 +187,17 @@ public class FragmentCountdown extends Fragment {
                 Toast.makeText(getActivity(), "incorrect time !", Toast.LENGTH_SHORT).show();
                 return;
             }
-            edMinute.setText(String.valueOf(minute));
-            edSecond.setText(String.valueOf(second));
+          //  minutePicker.setText(String.valueOf(minute));
+            minutePicker.setValue(minute);
+         //   secondPicker.setText(String.valueOf(second));
+            secondPicker.setValue(second);
         }
 
         finalTimer = second + (minute * 60);
     }
 
     private boolean labelIsEmpty() {
-        if (edMinute.getText().toString().isEmpty() || edSecond.getText().toString().isEmpty())
+        if (minutePicker.getValue()==0 && secondPicker.getValue() == 0)
             return true;
         else
             return false;
@@ -196,8 +205,8 @@ public class FragmentCountdown extends Fragment {
 
     private void findViews(View view) {
         tvTimeFinished = view.findViewById(R.id.tv_time_is_up);
-        edMinute = view.findViewById(R.id.minutes_input);
-        edSecond = view.findViewById(R.id.seconds_input);
+        minutePicker = view.findViewById(R.id.minutes_input);
+        secondPicker = view.findViewById(R.id.seconds_input);
         btnStartAndResume = view.findViewById(R.id.countdown_start_resume);
         btnPauseAndClear = view.findViewById(R.id.countdown_pause_clear);
     }
